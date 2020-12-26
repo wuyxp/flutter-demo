@@ -98,17 +98,21 @@ class _MyHomePageState extends State<MyHomePage> {
   var timeout = const Duration(seconds: 3);
   int _counter = 0;
 
-  var images = [];
+  var images = [
+    'assets/images/aa.jpg',
+    'assets/images/bb.jpg',
+    'assets/images/cc.jpg',
+  ];
 
   void _incrementCounter() {
     setState(() {
-      _counter++;
+      _counter = _counter >= images.length ? 1 : _counter+1;
     });
   }
 
   void _subtractionCounter() {
     setState(() {
-      _counter--;
+      _counter = _counter <=1 ? images.length : _counter-1;
     });
   }
 
@@ -127,18 +131,18 @@ class _MyHomePageState extends State<MyHomePage> {
       callback();
     }
   }
-  TimeFunction () {
+  timeFunction () {
     Timer(timeout, () {
       _incrementCounter();
-      TimeFunction();
+      timeFunction();
     });
   }
   @override
   void initState() {
     super.initState();
-    getDiskDirectory((){
-      TimeFunction();
-    });
+    // getDiskDirectory((){
+      timeFunction();
+    // });
   }
 
   @override
@@ -151,18 +155,11 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            images.length > 0 ? Image.file(
-              File(images[_counter.abs() % images.length]),
+            images.length > 0 ? Image.asset(
+              images[_counter-1],
               width: 400,
               height: 400,
             ) : Text('请稍等'),
-            false ? Text(
-              'You have pushed the button this many times:',
-            ) : Container(),
-            false ? Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ) : Container(),
             Stack(
               children: <Widget>[
                 Align(
@@ -174,7 +171,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 Align(
                   alignment: Alignment.bottomCenter,
-                  child: Text('共${images.length}张,当前是第${_counter}张'),
+                  child: Text('共${images.length}张,当前是第$_counter张'),
                 ),
                 Align(
                   alignment: Alignment.bottomRight,
