@@ -42,9 +42,15 @@ class ButtenDemo extends StatelessWidget {
             print('RaisedButton');
           }
         ),
-        FlatButton(onPressed: null, child: Text("flat, text")),
-        OutlineButton(onPressed: null, child: Text('光的按钮', style: TextStyle(color: Colors.deepOrange, fontSize: 23),),),
-        RaisedButton.icon(onPressed: (){}, icon: Icon(Icons.print), label: Text('有icon的按钮')),
+        FlatButton(onPressed: (){}, child: Text("flat, text")),
+        OutlineButton(onPressed: (){}, child: Text('光的按钮', style: TextStyle(color: Colors.deepOrange, fontSize: 23),),),
+        RaisedButton.icon(
+          onPressed: (){},
+          icon: Icon(Icons.print),
+          label: Text('有icon的按钮'),
+          highlightColor: Colors.yellow,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        ),
       ],
     );
   }
