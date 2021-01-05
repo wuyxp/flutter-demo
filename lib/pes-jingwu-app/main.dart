@@ -8,39 +8,18 @@ void main() {
       title: "警务社区",
       routes: {
         "/input": (ctx) => InputUrl(),
-        "/webview": (ctx) => WebViewWidget()
+      },
+      onGenerateRoute: (setting){
+        if (setting.name == "/webview") {
+          return MaterialPageRoute(
+            builder: (cxt) {
+              return WebViewWidget(url: setting.arguments);
+            }
+          );
+        }
+        return null;
       },
       initialRoute: '/input',
-      home: Scaffold(
-        body: Container(
-          child: EntryWidget(),
-        ),
-      ),
     )
   );
-}
-
-class EntryWidget extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() {
-    return EntryState();
-  }
-}
-
-class EntryState extends State {
-  bool isShowWebView = false;
-  String address = "aa";
-  Widget getCurrentWidget () {
-    if (isShowWebView) {
-      return WebViewWidget(url: address);
-    } else {
-      return InputUrl();
-    }
-  }
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: getCurrentWidget(),
-    );
-  }
 }

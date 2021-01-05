@@ -8,55 +8,63 @@ class InputUrl extends StatefulWidget {
 }
 
 class InputUrlState extends State {
+  String url = 'http://';
   @override
   Widget build(BuildContext context) {
     Color c = Colors.orange;
-    return Directionality(
-      textDirection: TextDirection.ltr,
-      child:
-        Container(
-          padding: EdgeInsets.all(12),
-          decoration: BoxDecoration(
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Form(
-                child: Column(
-                  children: [
-                    TextFormField(
-                      style: TextStyle(
-                        color: c,
+    return Scaffold(
+      body: Directionality(
+        textDirection: TextDirection.ltr,
+        child:
+          Container(
+            padding: EdgeInsets.all(12),
+            decoration: BoxDecoration(
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Form(
+                  child: Column(
+                    children: [
+                      TextFormField(
+                        style: TextStyle(
+                          color: c,
+                        ),
+                        initialValue: url,
+                        decoration: InputDecoration(
+                          icon: Icon(Icons.anchor, color: c,),
+                          focusColor: c,
+                          hoverColor: c,
+                          fillColor: c,
+                          labelText: '项目地址',
+                          labelStyle: TextStyle(color: c),
+                        ),
+                        onChanged: (value){
+                          this.url = value;
+                        },
                       ),
-                      decoration: InputDecoration(
-                        icon: Icon(Icons.anchor, color: c,),
-                        focusColor: c,
-                        hoverColor: c,
-                        fillColor: c,
-                        labelText: '项目地址',
-                        labelStyle: TextStyle(color: c),
-                      ),
-                    ),
-                    Container(
-                      width: double.infinity,
-                      margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
-                      height: 50,
-                      child: RaisedButton.icon(
-                        color: c,
-                        icon: Icon(Icons.accessible_forward, color: Colors.white,),
-                        label: Text("跳转到 webView", style: TextStyle(color: Colors.white),),
-                        onPressed: () {
-                          print('RaisedButton');
-                        }
-                      ),
-                    )
-                  ],
+                      Container(
+                        width: double.infinity,
+                        margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                        height: 50,
+                        child: RaisedButton.icon(
+                          color: c,
+                          icon: Icon(Icons.accessible_forward, color: Colors.white,),
+                          label: Text("跳转到 webView", style: TextStyle(color: Colors.white),),
+                          onPressed: () {
+                            print("需要跳转的url是 ---->  $url");
+                            Navigator.of(context).pushNamed('/webview', arguments: url);
+                          }
+                        ),
+                      )
+                    ],
+                  ),
                 ),
-              ),
-            ],
-          ),
-        )
-      ,);
+              ],
+            ),
+          )
+        ,),
+    );
   }
 }
 

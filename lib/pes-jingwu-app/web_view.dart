@@ -9,9 +9,11 @@ import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+import 'Toast.dart';
+
 class WebViewWidget extends StatefulWidget{
-  String url;
-  WebViewWidget({Key key, String url}): super(key: key);
+  final String url;
+  WebViewWidget({Key key, String url}): this.url = url ?? 'http://m.baidu.com', super(key: key);
   @override
   State<StatefulWidget> createState() {
     return _MyAppState(url: url);
@@ -70,6 +72,7 @@ class _MyAppState extends State {
   @override
   Widget build(BuildContext context) {
     WebView.platform = SurfaceAndroidWebView();
+
     return WebView(
       // initialUrl: 'http://192.168.34.52:8081/captureStat',
       // initialUrl: 'http://192.168.1.55:8080/captureStat',
@@ -97,6 +100,23 @@ class _MyAppState extends State {
         wvb.evaluateJavascript(vConsole);
       },
       onWebResourceError:  (url) {
+        Toast.toast(context,
+          msg: """
+            页面访问错误，访问错误日志如下
+            errorCode: ${url.errorCode}
+            description: ${url.description}
+            domain: ${url.domain}
+            errorType: ${url.errorType}
+            failingUrl: ${url.failingUrl}
+            
+          """,
+          position: ToastPostion.top,
+          showTime: 3000,
+          onFinish: () {
+            print('结束展示');
+            wvb.goBack();
+          }
+        );
         print("""
           on page onWebResourceError ------> 
           ${url.errorCode}
