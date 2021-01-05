@@ -10,41 +10,53 @@ class InputUrl extends StatefulWidget {
 class InputUrlState extends State {
   @override
   Widget build(BuildContext context) {
+    Color c = Colors.orange;
     return Directionality(
       textDirection: TextDirection.ltr,
       child:
         Container(
+          padding: EdgeInsets.all(12),
           decoration: BoxDecoration(
-
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              RaisedButton(
-                  child: Text("这是普通按钮"),
-                  onPressed: () {
-                    print('RaisedButton');
-                  }
+              Form(
+                child: Column(
+                  children: [
+                    TextFormField(
+                      style: TextStyle(
+                        color: c,
+                      ),
+                      decoration: InputDecoration(
+                        icon: Icon(Icons.anchor, color: c,),
+                        focusColor: c,
+                        hoverColor: c,
+                        fillColor: c,
+                        labelText: '项目地址',
+                        labelStyle: TextStyle(color: c),
+                      ),
+                    ),
+                    Container(
+                      width: double.infinity,
+                      margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                      height: 50,
+                      child: RaisedButton.icon(
+                        color: c,
+                        icon: Icon(Icons.accessible_forward, color: Colors.white,),
+                        label: Text("跳转到 webView", style: TextStyle(color: Colors.white),),
+                        onPressed: () {
+                          print('RaisedButton');
+                        }
+                      ),
+                    )
+                  ],
+                ),
               ),
-              Text('aaaaa'),
-              Text('aaaaa'),
             ],
           ),
         )
       ,);
-  }
-}
-
-class TestLessWidget extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        children: <Widget>[
-          Text("data")
-        ],
-      ),
-    );
   }
 }
 

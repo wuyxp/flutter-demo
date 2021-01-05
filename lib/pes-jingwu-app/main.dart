@@ -1,16 +1,23 @@
 import 'package:flutter/material.dart';
 
-import 'webview.dart';
-import 'inputUrl.dart';
+import 'web_view.dart';
+import 'input_url.dart';
 void main() {
-  runApp(MaterialApp(
-    title: "警务社区",
-    home: Scaffold(
-      body: Container(
-        child: EntryWidget(),
+  runApp(
+    MaterialApp(
+      title: "警务社区",
+      routes: {
+        "/input": (ctx) => InputUrl(),
+        "/webview": (ctx) => WebViewWidget()
+      },
+      initialRoute: '/input',
+      home: Scaffold(
+        body: Container(
+          child: EntryWidget(),
+        ),
       ),
-    ),
-  ));
+    )
+  );
 }
 
 class EntryWidget extends StatefulWidget {
