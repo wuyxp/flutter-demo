@@ -17,6 +17,7 @@
 
     <!-- Permissions options for the `storage` group -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <!-- Permissions options for the `camera` group -->
@@ -32,7 +33,7 @@
 
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="flutter_app"
+        android:label="警务应用"
         android:icon="@mipmap/ic_launcher"
         android:usesCleartextTraffic="true"
         android:requestLegacyExternalStorage="true"

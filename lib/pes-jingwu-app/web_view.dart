@@ -3,13 +3,15 @@ import 'dart:io';
 import 'dart:math';
 import 'dart:typed_data';
 
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:webview_flutter/platform_interface.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import 'Toast.dart';
+import 'request.dart';
 
 class WebViewWidget extends StatefulWidget{
   final String url;
@@ -44,15 +46,28 @@ String getRandom([int len=30]){
   }
   return result;
 }
+
 class _MyAppState extends State {
   WebViewController wvb;
   String url;
+  var dio;
   _MyAppState({this.url});
+  final picker = ImagePicker();
 
-  saveImage (url) async {
+
+// 上传图片
+  Future _uploadImage(String path, String params) async {
+    Map<String, dynamic> result = await uploadFile(path);
+    result["params"] = params;
+    String sResult = jsonEncode(result);
+    wvb.evaluateJavascript('window.__showSelectPhotoHandle(\'${sResult}\')');
+  }
+
+  // 保存图片
+  _saveImage (url) async {
     var isPer = await _requestPermissions();
     if (isPer) {
-      var respones = await Dio().get(url, options: Options(responseType: ResponseType.bytes));
+      var respones = await downloadImage(url);
       var result = await ImageGallerySaver.saveImage(Uint8List.fromList(respones.data), name: '${getRandom(15)}');
       print(result);
       String sResult = jsonEncode(result);
@@ -60,6 +75,24 @@ class _MyAppState extends State {
       wvb.evaluateJavascript('window.__showSaveImageHandle(\'${sResult}\')');
     } else {
       wvb.evaluateJavascript('window.__showSaveImageHandle("没有相册权限，请重新赋值权限")');
+    }
+  }
+
+  // 打开相册
+  _openPhone (String s) async {
+    PickedFile image = await picker.getImage(source: ImageSource.gallery);
+    if(image != null){
+      print(image.path);
+      _uploadImage(image.path, s);
+    }
+  }
+
+  // 打开相机
+  _openCamera(String s) async {
+    PickedFile image = await picker.getImage(source: ImageSource.camera);
+    if(image != null) {
+      print(image.path);
+      _uploadImage(image.path, s);
     }
   }
 
@@ -85,13 +118,13 @@ class _MyAppState extends State {
       onWebViewCreated: (webViewController) {
         print('on page created ------> $webViewController');
         wvb = webViewController;
+        dio = getDio(wvb);
       },
       onPageFinished: (String str) {
         const vConsole = """
           var script = document.createElement('script');
           script.setAttribute('type', 'text/javascript');
-          // script.setAttribute('src', 'https://cdn.bootcss.com/vConsole/3.2.0/vconsole.min.js');
-          script.setAttribute('src', '/temp-images/vconsole.min.js');
+          script.setAttribute('src', '/vConsole/3.3.0/vconsole.min.js');
           document.getElementsByTagName('head')[0].appendChild(script);
           script.onload = function(){
             new VConsole();
@@ -100,23 +133,24 @@ class _MyAppState extends State {
         wvb.evaluateJavascript(vConsole);
       },
       onWebResourceError:  (url) {
-        Toast.toast(context,
-          msg: """
-            页面访问错误，访问错误日志如下
-            errorCode: ${url.errorCode}
-            description: ${url.description}
-            domain: ${url.domain}
-            errorType: ${url.errorType}
-            failingUrl: ${url.failingUrl}
-            
-          """,
-          position: ToastPostion.top,
-          showTime: 3000,
-          onFinish: () {
-            print('结束展示');
-            wvb.goBack();
-          }
-        );
+        if(url.errorType != WebResourceErrorType.hostLookup) {
+          Toast.toast(context,
+            msg: """
+              页面访问错误，访问错误日志如下
+              errorCode: ${url.errorCode}
+              description: ${url.description}
+              domain: ${url.domain}
+              errorType: ${url.errorType}
+              failingUrl: ${url.failingUrl}
+            """,
+            position: ToastPostion.top,
+            showTime: 3000,
+            onFinish: () {
+              print('结束展示');
+              wvb.goBack();
+            }
+          );
+        }
         print("""
           on page onWebResourceError ------> 
           ${url.errorCode}
@@ -130,9 +164,17 @@ class _MyAppState extends State {
         JavascriptChannel(name: 'testFlutter', onMessageReceived:(JavascriptMessage msg) {
           print('---->测试flutter ${msg.message}<----');
         }),
-        JavascriptChannel(name: 'downloadCapture', onMessageReceived:(JavascriptMessage msg) {
+        JavascriptChannel(name: '__f_downloadCapture', onMessageReceived:(JavascriptMessage msg) {
           print('---->开始保存图片地址为 ${msg.message}<----');
-          saveImage(msg.message);
+          _saveImage(msg.message);
+        }),
+        JavascriptChannel(name: '__f_openPhone', onMessageReceived:(JavascriptMessage msg) {
+          print('---->这里我打开相册 ${msg.message}<----');
+          _openPhone(msg.message);
+        }),
+        JavascriptChannel(name: '__f_openCamera', onMessageReceived:(JavascriptMessage msg) {
+          print('---->这里我打开相机 ${msg.message}<----');
+          _openCamera(msg.message);
         }),
       },
     );

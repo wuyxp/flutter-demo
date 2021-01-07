@@ -8,7 +8,8 @@ class InputUrl extends StatefulWidget {
 }
 
 class InputUrlState extends State {
-  String url = 'http://';
+  // String url = 'http://';
+  String url = 'http://192.168.1.55:8080/';
   @override
   Widget build(BuildContext context) {
     Color c = Colors.orange;

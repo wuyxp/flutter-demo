@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'web_view.dart';
-import 'input_url.dart';
+import 'pes-jingwu-app/web_view.dart';
+import 'pes-jingwu-app/input_url.dart';
 void main() {
   runApp(
     MaterialApp(
