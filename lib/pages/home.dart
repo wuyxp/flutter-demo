@@ -19,10 +19,9 @@ class Home extends StatelessWidget {
       ),
       body: Container(
         child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+          child: ListView(
+            shrinkWrap: true,
             children: [
-              Text("首页中心"),
               FlatButton(onPressed: (){
                 Navigator.push(
                   context,
@@ -83,6 +82,9 @@ class Home extends StatelessWidget {
               RaisedButton(onPressed: (){
                 Navigator.of(context).pushNamed('/detail');
               }, child: Text("进入商品详情页面"),),
+              RaisedButton(onPressed: (){
+                Navigator.of(context).pushNamed('/bottomTab');
+              }, child: Text("进入有底部切换的页面"),),
               RaisedButton(onPressed: (){
                 showDialog(
                   context: context,

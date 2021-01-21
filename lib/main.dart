@@ -10,6 +10,8 @@ import 'pages/detail.dart';
 import 'pages/buy.dart';
 import 'pages/login.dart';
 
+import 'pages/bottom_tab.dart';
+
 import 'pages/unknown.dart';
 
 void main() {
@@ -25,6 +27,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: "测试 Demo",
+      theme: ThemeData(
+        primaryColor: Colors.orange
+      ),
       routes: {
         "/home": (context){
             return Home();
@@ -33,7 +38,8 @@ class MyApp extends StatelessWidget {
           return Favorite();
         },
         '/trending': (context) => Trending(),
-        '/detail': (context) => Detail()
+        '/detail': (context) => Detail(),
+        '/bottomTab':(context) => BottomTab(),
       },
       initialRoute: "/home",
       navigatorObservers: [routeObserver, MyRouteObserve()],
