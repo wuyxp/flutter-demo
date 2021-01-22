@@ -14,6 +14,8 @@ import 'pages/bottom_tab.dart';
 
 import 'pages/unknown.dart';
 
+import 'animation/base.dart';
+
 void main() {
   runApp(
     MyApp()
@@ -40,8 +42,9 @@ class MyApp extends StatelessWidget {
         '/trending': (context) => Trending(),
         '/detail': (context) => Detail(),
         '/bottomTab':(context) => BottomTab(),
+        '/animation/base': (context) => AnimationBase(),
       },
-      initialRoute: "/home",
+      initialRoute: "/animation/base",
       navigatorObservers: [routeObserver, MyRouteObserve()],
       onGenerateRoute: (RouteSettings rs) {
         if (rs.name == '/favorite/detail') {
