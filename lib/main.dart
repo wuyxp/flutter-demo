@@ -19,6 +19,9 @@ import 'animation/bezier.dart';
 import 'animation/extend_animated.dart';
 import 'animation/animated_container.dart';
 
+import 'animation/hreo_wy.dart';
+import 'animation/hreo_detail.dart';
+
 void main() {
   runApp(
     MyApp()
@@ -49,8 +52,11 @@ class MyApp extends StatelessWidget {
         '/animation/bezier': (context) => AnimationBezier(),
         '/animation/extend_animated': (context) => ExtendAnimated(),
         '/animation/animated_container': (context) => AnimatedContainerEx(),
+
+        '/hreo': (context) => HreoWY(),
+        '/hreo/detail': (context) =>HreoDetail(),
       },
-      initialRoute: "/animation/animated_container",
+      initialRoute: "/hreo",
       navigatorObservers: [routeObserver, MyRouteObserve()],
       onGenerateRoute: (RouteSettings rs) {
         if (rs.name == '/favorite/detail') {
