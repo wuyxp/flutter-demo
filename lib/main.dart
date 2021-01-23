@@ -16,6 +16,7 @@ import 'pages/unknown.dart';
 
 import 'animation/base.dart';
 import 'animation/bezier.dart';
+import 'animation/extend_animated.dart';
 
 void main() {
   runApp(
@@ -45,8 +46,9 @@ class MyApp extends StatelessWidget {
         '/bottomTab':(context) => BottomTab(),
         '/animation/base': (context) => AnimationBase(),
         '/animation/bezier': (context) => AnimationBezier(),
+        '/animation/extend_animated': (context) => ExtendAnimated(),
       },
-      initialRoute: "/animation/bezier",
+      initialRoute: "/animation/extend_animated",
       navigatorObservers: [routeObserver, MyRouteObserve()],
       onGenerateRoute: (RouteSettings rs) {
         if (rs.name == '/favorite/detail') {
