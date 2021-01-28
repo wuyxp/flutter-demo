@@ -22,6 +22,10 @@ import 'animation/animated_container.dart';
 import 'animation/hreo_wy.dart';
 import 'animation/hreo_detail.dart';
 
+import 'event/pointer.dart';
+import 'event/gesture.dart';
+import 'event/event_bus_demo.dart';
+
 void main() {
   runApp(
     MyApp()
@@ -55,8 +59,12 @@ class MyApp extends StatelessWidget {
 
         '/hreo': (context) => HreoWY(),
         '/hreo/detail': (context) =>HreoDetail(),
+
+        '/event/pointer': (context) => PointerDemo(),
+        '/event/gesture': (context) => GestureDemo(),
+        '/event/bus': (context) => EventBusDemo(),
       },
-      initialRoute: "/hreo",
+      initialRoute: "/event/bus",
       navigatorObservers: [routeObserver, MyRouteObserve()],
       onGenerateRoute: (RouteSettings rs) {
         if (rs.name == '/favorite/detail') {
