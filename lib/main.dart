@@ -25,6 +25,9 @@ import 'animation/hreo_detail.dart';
 import 'event/pointer.dart';
 import 'event/gesture.dart';
 import 'event/event_bus_demo.dart';
+import 'event/notification.dart';
+
+import 'inherited/inherited_demo.dart';
 
 void main() {
   runApp(
@@ -63,8 +66,11 @@ class MyApp extends StatelessWidget {
         '/event/pointer': (context) => PointerDemo(),
         '/event/gesture': (context) => GestureDemo(),
         '/event/bus': (context) => EventBusDemo(),
+        '/event/notification': (context) => NotificationDemo(),
+
+        '/inherited': (context) => InheritedDome(),
       },
-      initialRoute: "/event/bus",
+      initialRoute: "/inherited",
       navigatorObservers: [routeObserver, MyRouteObserve()],
       onGenerateRoute: (RouteSettings rs) {
         if (rs.name == '/favorite/detail') {
