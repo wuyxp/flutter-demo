@@ -28,6 +28,7 @@ import 'event/event_bus_demo.dart';
 import 'event/notification.dart';
 
 import 'inherited/inherited_demo.dart';
+import 'inherited/provider_demo.dart';
 
 void main() {
   runApp(
@@ -69,8 +70,9 @@ class MyApp extends StatelessWidget {
         '/event/notification': (context) => NotificationDemo(),
 
         '/inherited': (context) => InheritedDome(),
+        '/provider':(context) => ProviderDemo(),
       },
-      initialRoute: "/inherited",
+      initialRoute: "/provider",
       navigatorObservers: [routeObserver, MyRouteObserve()],
       onGenerateRoute: (RouteSettings rs) {
         if (rs.name == '/favorite/detail') {
